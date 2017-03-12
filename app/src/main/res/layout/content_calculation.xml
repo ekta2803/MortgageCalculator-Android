@@ -1,45 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_calculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.gcekta.mortgagecalculator.CalculationActivity"
-    tools:showIn="@layout/app_bar_calculation">
+    tools:showIn="@layout/app_bar_calculation"
+    android:orientation="vertical"
+    android:baselineAligned="false"
+    app:layout_collapseParallaxMultiplier="1.0"
+    app:layout_scrollFlags="scroll"
+    android:weightSum="1"
+    android:padding="@dimen/activity_vertical_margin">
+
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        >
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/loan_amt_text"
-            android:hint="Loan Amount"
-            android:inputType="number" />
+            android:hint="@string/loan_amount_label"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin" />
+
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textInputLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="66dp">
+        android:layout_height="wrap_content">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Down Payment"
-            android:inputType="number" />
+            android:id="@+id/down_payment"
+            android:hint="@string/down_payment_label"
+            android:inputType="number"
+            android:layout_margin="@dimen/activity_vertical_margin" />
+
     </android.support.design.widget.TextInputLayout>
-</RelativeLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:id="@+id/apr"
+            android:hint="@string/apr_label"
+            android:inputType="number"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_width="84dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:text="@string/term_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:padding="5dp"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/loanterm"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:text="@string/fifteen_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/years15" />
+
+            <RadioButton
+                android:text="@string/thirty_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/years20" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:text="@string/monthly_payment_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:text="@string/monthly_payment_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthlypayment"
+            android:textSize="48sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+    </LinearLayout>
+
+</LinearLayout>
