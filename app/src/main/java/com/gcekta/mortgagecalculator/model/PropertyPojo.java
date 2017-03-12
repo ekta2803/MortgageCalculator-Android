@@ -6,11 +6,14 @@ package com.gcekta.mortgagecalculator.model;
 
 public class PropertyPojo {
 
+
+
+    int property_id;
     String propertyType;
     String address;
     String city;
     String state;
-    int zipcode;
+    String zipcode;
     double loanAmt;
     double downPayment;
     double apr;
@@ -56,14 +59,6 @@ public class PropertyPojo {
         this.state = state;
     }
 
-    public int getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
-    }
-
     public double getLoanAmt() {
         return loanAmt;
     }
@@ -86,5 +81,20 @@ public class PropertyPojo {
 
     public void setApr(double apr) {
         this.apr = apr;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+    public int getProperty_id() {
+        return property_id;
+    }
+
+    public void setProperty_id(int property_id) {
+        this.property_id = property_id;
     }
 }
