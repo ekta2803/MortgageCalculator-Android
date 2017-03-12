@@ -20,9 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
-
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class CalculationActivity extends AppCompatActivity
