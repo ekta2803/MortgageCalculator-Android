@@ -5,4 +5,17 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="down_payment_label">Down Payment</string>
+    <string name="loan_amount_label">Loan Amount</string>
+    <string name="apr_label">APR</string>
+    <string name="term_label">Loan Term</string>
+    <string name="fifteen_label">15 Years</string>
+    <string name="thirty_label">30 Years</string>
+    <string name="monthly_payment_label">Monthly Payment</string>
+    <string name="monthly_payment_default">$0.00</string>
+
+    <string name="clear_alert_title">Are you sure?</string>
+    <string name="clear_alert_msg">This will clear the current calculations.</string>
+    <string name="clear_alert_yes">Yes</string>
+    <string name="clear_alert_no">No</string>
 </resources>
