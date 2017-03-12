@@ -1,15 +1,13 @@
-package com.gcekta.mortgagecalculator;
+package com.gcekta.mortgagecalculator.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,14 +17,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.gcekta.mortgagecalculator.R;
+import com.gcekta.mortgagecalculator.model.Calculations;
+import com.gcekta.mortgagecalculator.model.PropertyPojo;
+
 import java.text.NumberFormat;
 
 public class CalculationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "CalculationActivity";
 
     EditText loanAmount, downPayment, apr;
+    TextInputLayout loanAmountLayout, downPaymentLayout, aprLayout;
+    RadioGroup loanterm;
+    Button calcButton;
+    TextView monthlyPayment;
+    PropertyPojo pp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,8 @@ public class CalculationActivity extends AppCompatActivity
         setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        pp = new PropertyPojo();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +64,7 @@ public class CalculationActivity extends AppCompatActivity
                                 loanAmount.getText().clear();
                                 downPayment.getText().clear();
                                 apr.getText().clear();
+                                monthlyPayment.setText(R.string.monthly_payment_default);
                                 return;
                             }
                         })
@@ -74,10 +89,15 @@ public class CalculationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //get handle to the Views
+        loanAmountLayout = (TextInputLayout) findViewById(R.id.loan_amt_text_layout);
         loanAmount = (EditText) findViewById(R.id.loan_amt_text);
+        downPaymentLayout = (TextInputLayout) findViewById(R.id.down_payment_text_layout);
         downPayment = (EditText) findViewById(R.id.down_payment);
+        aprLayout = (TextInputLayout) findViewById(R.id.apr_text_layout);
         apr = (EditText) findViewById(R.id.apr);
-
+        loanterm = (RadioGroup) findViewById(R.id.loanterm);
+        calcButton = (Button) findViewById(R.id.calcbtn);
+        monthlyPayment = (TextView) findViewById(R.id.monthlypayment);
 
         //add All listeners
 
@@ -101,17 +121,21 @@ public class CalculationActivity extends AppCompatActivity
 
                         String cleanString = s.toString().replaceAll("[$,.]", "");
                         if(!cleanString.isEmpty()){
-                            double parsed = Double.parseDouble(cleanString);
-                            String formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+                            double parsed = (Double.parseDouble(cleanString))/100;
+                            String formatted = NumberFormat.getCurrencyInstance().format((parsed));
 
                             current = formatted;
                             loanAmount.setText(formatted);
                             loanAmount.setSelection(formatted.length());
 
                             loanAmount.addTextChangedListener(this);
+                            if(validateTextFields(loanAmount, loanAmountLayout)){
+                                pp.setLoanAmount(parsed);
+                            }
                         }
 
                     }
+
                 }
 
         });
@@ -136,14 +160,18 @@ public class CalculationActivity extends AppCompatActivity
 
                     String cleanString = s.toString().replaceAll("[$,.]", "");
                     if(!cleanString.isEmpty()){
-                        double parsed = Double.parseDouble(cleanString);
-                        String formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+                        double parsed = (Double.parseDouble(cleanString))/100;
+                        String formatted = NumberFormat.getCurrencyInstance().format((parsed));
 
                         current = formatted;
                         downPayment.setText(formatted);
                         downPayment.setSelection(formatted.length());
 
                         downPayment.addTextChangedListener(this);
+
+                        if(validateTextFields(downPayment, downPaymentLayout)){
+                            pp.setDownPayment(parsed);
+                        }
                     }
 
                 }
@@ -171,18 +199,56 @@ public class CalculationActivity extends AppCompatActivity
                     apr.removeTextChangedListener(this);
                     String cleanString = s.toString().replaceAll("[,.% ]","");
                     if(!cleanString.isEmpty()){
-                        double parsed = Double.parseDouble(cleanString);
-                        String formatted = NumberFormat.getNumberInstance().format((parsed/100)) + " %";
+                        double parsed = (Double.parseDouble(cleanString))/100;
+                        String formatted = NumberFormat.getNumberInstance().format((parsed)) + " %";
                         current = formatted;
                         apr.setText(formatted);
                         apr.setSelection(formatted.length());
 
                         apr.addTextChangedListener(this);
+
+                        if(validateTextFields(apr, aprLayout)){
+                            pp.setApr(parsed);
+                        }
                     }
 
                 }
             }
 
+        });
+
+//        loanterm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId){
+//                    case R.id.years15:
+//                        break;
+//                    case R.id.years20:
+//                        break;
+//                }
+//            }
+//        });
+
+        calcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( validateTextFields(loanAmount, loanAmountLayout) &&
+                    validateTextFields(downPayment, downPaymentLayout) &&
+                    validateTextFields(apr, aprLayout)){
+
+                    switch (loanterm.getCheckedRadioButtonId()){
+                        case R.id.years15:
+                            pp.setLoanTerms(15);
+                            break;
+                        case R.id.years30:
+                            pp.setLoanTerms(30);
+                            break;
+                    }
+
+                    String monthlyPaymentValue = NumberFormat.getCurrencyInstance().format((Calculations.calculateMonthlyPayment(pp)));
+                    monthlyPayment.setText(monthlyPaymentValue);
+                }
+            }
         });
     }
 
@@ -244,6 +310,15 @@ public class CalculationActivity extends AppCompatActivity
     }
 
 
+    private boolean validateTextFields(EditText textField, TextInputLayout textInputLayout) {
+        if (textField.getText().toString().trim().isEmpty()) {
+            textInputLayout.setError(getString(R.string.err_req_msg));
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+        }
 
+        return true;
+    }
 
 }

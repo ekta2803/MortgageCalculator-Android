@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.TaskStackBuilder;
 
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
 
@@ -45,10 +43,10 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
-        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmt());
+        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmount());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
-        values.put(TableDetails.COLUMN_LOAN_TERMS,property.getTerms());
+        values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
         database.insert(TableDetails.TABLE_NAME,null,values);
     }
 
@@ -67,16 +65,16 @@ public class PropertyDataSource {
         if (cursor != null){
             cursor.moveToFirst();
             PropertyPojo property = new PropertyPojo();
-            property.setProperty_id(Integer.parseInt(cursor.getString(0)));
+            property.setPropertyId(Integer.parseInt(cursor.getString(0)));
             property.setPropertyType(cursor.getString(1));
             property.setAddress(cursor.getString(2));
             property.setCity(cursor.getString(3));
             property.setState(cursor.getString(4));
             property.setZipcode(cursor.getString(5));
-            property.setLoanAmt(Double.parseDouble(cursor.getString(6)));
+            property.setLoanAmount(Double.parseDouble(cursor.getString(6)));
             property.setDownPayment(Double.parseDouble(cursor.getString(7)));
             property.setApr(Double.parseDouble(cursor.getString(8)));
-            property.setTerms(Integer.parseInt(cursor.getString(9)));
+            property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
 
             return property;
         }else{
@@ -98,16 +96,16 @@ public class PropertyDataSource {
         if (cursor.moveToFirst()) {
             do {
                 PropertyPojo property = new PropertyPojo();
-                property.setProperty_id(Integer.parseInt(cursor.getString(0)));
+                property.setPropertyId(Integer.parseInt(cursor.getString(0)));
                 property.setPropertyType(cursor.getString(1));
                 property.setAddress(cursor.getString(2));
                 property.setCity(cursor.getString(3));
                 property.setState(cursor.getString(4));
                 property.setZipcode(cursor.getString(5));
-                property.setLoanAmt(Double.parseDouble(cursor.getString(6)));
+                property.setLoanAmount(Double.parseDouble(cursor.getString(6)));
                 property.setDownPayment(Double.parseDouble(cursor.getString(7)));
                 property.setApr(Double.parseDouble(cursor.getString(8)));
-                property.setTerms(Integer.parseInt(cursor.getString(9)));
+                property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
                 // Adding contact to list
                 propertyList.add(property);
             } while (cursor.moveToNext());
@@ -129,12 +127,12 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
-        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmt());
+        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmount());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
-        values.put(TableDetails.COLUMN_LOAN_TERMS,property.getTerms());
+        values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
         return database.update(TableDetails.TABLE_NAME,values, TableDetails.COLUMN_PROP_ID + "=?",
-                new String[] { String.valueOf(property.getProperty_id()) });
+                new String[] { String.valueOf(property.getPropertyId()) });
     }
 
     /*
@@ -145,6 +143,6 @@ public class PropertyDataSource {
     public void deleteProperty(PropertyPojo property){
         database = dbHelper.getWritableDatabase();
         database.delete(TableDetails.TABLE_NAME, TableDetails.COLUMN_PROP_ID+"=?",
-                new String[] { String.valueOf(property.getProperty_id()) });
+                new String[] { String.valueOf(property.getPropertyId()) });
     }
 }

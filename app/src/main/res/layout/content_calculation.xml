@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.gcekta.mortgagecalculator.CalculationActivity"
+    tools:context="com.gcekta.mortgagecalculator.activities.CalculationActivity"
     tools:showIn="@layout/app_bar_calculation"
     android:orientation="vertical"
     android:baselineAligned="false"
@@ -19,42 +19,50 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:id="@+id/loan_amt_text_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
 
         <EditText
             android:layout_width="match_parent"
             android:id="@+id/loan_amt_text"
             android:hint="@string/loan_amount_label"
             android:inputType="number"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin" />
+            android:layout_height="wrap_content" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/down_payment_text_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/down_payment"
             android:hint="@string/down_payment_label"
-            android:inputType="number"
-            android:layout_margin="@dimen/activity_vertical_margin" />
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/apr_text_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
 
         <EditText
             android:layout_height="wrap_content"
             android:id="@+id/apr"
             android:hint="@string/apr_label"
             android:inputType="number"
-            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_width="84dp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -64,11 +72,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin">
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:text="@string/term_label"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.11"
             android:padding="5dp"
@@ -84,26 +93,34 @@
                 android:text="@string/fifteen_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/years15" />
+                android:id="@+id/years15"
+                android:checked="true" />
 
             <RadioButton
                 android:text="@string/thirty_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/years20" />
+                android:id="@+id/years30" />
 
         </RadioGroup>
 
     </LinearLayout>
 
+    <Button
+        android:text="@string/calc_btn_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calcbtn"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="32dp"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin">
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:text="@string/monthly_payment_label"
@@ -122,5 +139,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp" />
     </LinearLayout>
+
+
 
 </LinearLayout>

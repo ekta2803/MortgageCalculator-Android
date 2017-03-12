@@ -18,4 +18,6 @@
     <string name="clear_alert_msg">This will clear the current calculations.</string>
     <string name="clear_alert_yes">Yes</string>
     <string name="clear_alert_no">No</string>
+    <string name="calc_btn_label">Calculate Monthly Payment</string>
+    <string name="err_req_msg">This is required.</string>
 </resources>
