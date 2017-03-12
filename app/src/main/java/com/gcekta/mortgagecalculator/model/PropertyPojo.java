@@ -8,23 +8,23 @@ public class PropertyPojo {
 
 
 
-    int property_id;
+    int propertyId;
     String propertyType;
     String address;
     String city;
     String state;
     String zipcode;
-    double loanAmt;
+    double loanAmount;
     double downPayment;
     double apr;
-    int terms;
+    int loanTerms;
 
-    public int getTerms() {
-        return terms;
+    public int getLoanTerms() {
+        return loanTerms;
     }
 
-    public void setTerms(int terms) {
-        this.terms = terms;
+    public void setLoanTerms(int loanTerms) {
+        this.loanTerms = loanTerms;
     }
 
     public String getPropertyType() {
@@ -59,12 +59,12 @@ public class PropertyPojo {
         this.state = state;
     }
 
-    public double getLoanAmt() {
-        return loanAmt;
+    public double getLoanAmount() {
+        return loanAmount;
     }
 
-    public void setLoanAmt(double loanAmt) {
-        this.loanAmt = loanAmt;
+    public void setLoanAmount(double loanAmount) {
+        this.loanAmount = loanAmount;
     }
 
     public double getDownPayment() {
@@ -90,11 +90,11 @@ public class PropertyPojo {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-    public int getProperty_id() {
-        return property_id;
+    public int getPropertyId() {
+        return propertyId;
     }
 
-    public void setProperty_id(int property_id) {
-        this.property_id = property_id;
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 }
