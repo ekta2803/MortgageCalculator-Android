@@ -20,4 +20,7 @@
     <string name="clear_alert_no">No</string>
     <string name="calc_btn_label">Calculate Monthly Payment</string>
     <string name="err_req_msg">This is required.</string>
+    <string name="nav_header_text">Options</string>
+    <string name="nav_new_calc_title">New Calculation</string>
+    <string name="nav_saved_calc">Saved Calculations</string>
 </resources>
