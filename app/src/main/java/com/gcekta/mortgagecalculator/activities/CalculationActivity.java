@@ -2,6 +2,7 @@ package com.gcekta.mortgagecalculator.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -17,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -33,51 +36,80 @@ public class CalculationActivity extends AppCompatActivity
 
     private static final String TAG = "CalculationActivity";
 
-    EditText loanAmount, downPayment, apr;
-    TextInputLayout loanAmountLayout, downPaymentLayout, aprLayout;
+    EditText propertyPrice, downPayment, apr;
+    TextInputLayout propertyPriceLayout, downPaymentLayout, aprLayout;
     RadioGroup loanterm;
     Button calcButton;
     TextView monthlyPayment;
     PropertyPojo pp;
 
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab,fabClear,fabSave;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarcalc);
         setSupportActionBar(toolbar);
 
         pp = new PropertyPojo();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        fab = (FloatingActionButton)findViewById(R.id.fabMain);
+        fabClear = (FloatingActionButton)findViewById(R.id.fabClear);
+        fabSave = (FloatingActionButton)findViewById(R.id.fabSave);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
+        View.OnClickListener fabListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(CalculationActivity.this);
 
-                alertBuilder
-                        .setTitle(R.string.clear_alert_title)
-                        .setMessage(R.string.clear_alert_msg)
-                        .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                loanAmount.getText().clear();
-                                downPayment.getText().clear();
-                                apr.getText().clear();
-                                monthlyPayment.setText(R.string.monthly_payment_default);
-                                return;
-                            }
-                        })
-                        .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
+                switch (view.getId()){
+                    case R.id.fabMain:
+                        animateFAB();
+                        break;
+                    case R.id.fabClear:
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(CalculationActivity.this);
+                        alertBuilder
+                                .setTitle(R.string.clear_alert_title)
+                                .setMessage(R.string.clear_alert_msg)
+                                .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        propertyPrice.getText().clear();
+                                        downPayment.getText().clear();
+                                        apr.getText().clear();
+                                        monthlyPayment.setText(R.string.monthly_payment_default);
+                                        animateFAB();
+                                        return;
+                                    }
+                                })
+                                .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        return;
+                                    }
+                                });
 
-                alertBuilder.create().show();
+                        alertBuilder.create().show();
+                        break;
+                    case R.id.fabSave:
+                        Intent savePropIntent = new Intent(getApplicationContext(), PropertyInfoActivity.class);
+                        startActivity(savePropIntent);
+                        break;
+                }
             }
-        });
+        };
+
+        fab.setOnClickListener(fabListener);
+        fabClear.setOnClickListener(fabListener);
+        fabSave.setOnClickListener(fabListener);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,8 +121,8 @@ public class CalculationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //get handle to the Views
-        loanAmountLayout = (TextInputLayout) findViewById(R.id.loan_amt_text_layout);
-        loanAmount = (EditText) findViewById(R.id.loan_amt_text);
+        propertyPriceLayout = (TextInputLayout) findViewById(R.id.prop_price_text_layout);
+        propertyPrice = (EditText) findViewById(R.id.prop_price_text);
         downPaymentLayout = (TextInputLayout) findViewById(R.id.down_payment_text_layout);
         downPayment = (EditText) findViewById(R.id.down_payment);
         aprLayout = (TextInputLayout) findViewById(R.id.apr_text_layout);
@@ -99,9 +131,9 @@ public class CalculationActivity extends AppCompatActivity
         calcButton = (Button) findViewById(R.id.calcbtn);
         monthlyPayment = (TextView) findViewById(R.id.monthlypayment);
 
-        //add All listeners
 
-        loanAmount.addTextChangedListener(new TextWatcher() {
+        //Text Field listeners
+        TextWatcher propertyPriceWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -116,31 +148,30 @@ public class CalculationActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) {
 
-                    if(!s.toString().equals(current)){
-                        loanAmount.removeTextChangedListener(this);
+                if(!s.toString().equals(current)){
+                    propertyPrice.removeTextChangedListener(this);
 
-                        String cleanString = s.toString().replaceAll("[$,.]", "");
-                        if(!cleanString.isEmpty()){
-                            double parsed = (Double.parseDouble(cleanString))/100;
-                            String formatted = NumberFormat.getCurrencyInstance().format((parsed));
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+                    if(!cleanString.isEmpty()){
+                        double parsed = (Double.parseDouble(cleanString))/100;
+                        String formatted = NumberFormat.getCurrencyInstance().format((parsed));
 
-                            current = formatted;
-                            loanAmount.setText(formatted);
-                            loanAmount.setSelection(formatted.length());
+                        current = formatted;
+                        propertyPrice.setText(formatted);
+                        propertyPrice.setSelection(formatted.length());
 
-                            loanAmount.addTextChangedListener(this);
-                            if(validateTextFields(loanAmount, loanAmountLayout)){
-                                pp.setLoanAmount(parsed);
-                            }
+                        propertyPrice.addTextChangedListener(this);
+                        if(validateTextFields(propertyPrice, propertyPriceLayout)){
+                            pp.setPropertyPrice(parsed);
                         }
-
                     }
 
                 }
 
-        });
+            }
 
-        downPayment.addTextChangedListener(new TextWatcher() {
+        };
+        TextWatcher downPaymentWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -177,9 +208,8 @@ public class CalculationActivity extends AppCompatActivity
                 }
             }
 
-        });
-
-        apr.addTextChangedListener(new TextWatcher() {
+        };
+        TextWatcher aprWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -215,26 +245,13 @@ public class CalculationActivity extends AppCompatActivity
                 }
             }
 
-        });
-
-//        loanterm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId){
-//                    case R.id.years15:
-//                        break;
-//                    case R.id.years20:
-//                        break;
-//                }
-//            }
-//        });
-
-        calcButton.setOnClickListener(new View.OnClickListener() {
+        };
+        View.OnClickListener calcButtonListner = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( validateTextFields(loanAmount, loanAmountLayout) &&
-                    validateTextFields(downPayment, downPaymentLayout) &&
-                    validateTextFields(apr, aprLayout)){
+                if( validateTextFields(propertyPrice, propertyPriceLayout) &&
+                        validateTextFields(downPayment, downPaymentLayout) &&
+                        validateTextFields(apr, aprLayout)){
 
                     switch (loanterm.getCheckedRadioButtonId()){
                         case R.id.years15:
@@ -249,7 +266,25 @@ public class CalculationActivity extends AppCompatActivity
                     monthlyPayment.setText(monthlyPaymentValue);
                 }
             }
-        });
+        };
+
+        //add All listeners
+        propertyPrice.addTextChangedListener(propertyPriceWatcher);
+        downPayment.addTextChangedListener(downPaymentWatcher);
+        apr.addTextChangedListener(aprWatcher);
+        calcButton.setOnClickListener(calcButtonListner);
+
+//        loanterm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId){
+//                    case R.id.years15:
+//                        break;
+//                    case R.id.years20:
+//                        break;
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -262,27 +297,6 @@ public class CalculationActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.calculation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -311,6 +325,29 @@ public class CalculationActivity extends AppCompatActivity
         }
 
         return true;
+    }
+
+    public void animateFAB(){
+
+        if(isFabOpen){
+
+            fab.startAnimation(rotate_backward);
+            fabClear.startAnimation(fab_close);
+            fabSave.startAnimation(fab_close);
+            fabClear.setClickable(false);
+            fabSave.setClickable(false);
+            isFabOpen = false;
+
+        } else {
+
+            fab.startAnimation(rotate_forward);
+            fabClear.startAnimation(fab_open);
+            fabSave.startAnimation(fab_open);
+            fabClear.setClickable(true);
+            fabSave.setClickable(true);
+            isFabOpen = true;
+
+        }
     }
 
 }
