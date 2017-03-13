@@ -293,6 +293,7 @@ public class CalculationActivity extends AppCompatActivity
 
         if (id == R.id.nav_new_calc) {
 
+
         } else if (id == R.id.nav_saved_calc) {
             Intent i = new Intent(this,MapActivity.class);
             startActivity(i);

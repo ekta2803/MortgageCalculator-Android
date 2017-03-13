@@ -1,6 +1,7 @@
 package com.gcekta.mortgagecalculator.activities;
 
 
+
 import android.app.Dialog;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,12 +10,17 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 import com.gcekta.mortgagecalculator.db.PropertyDataSource;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gcekta.mortgagecalculator.R;
@@ -29,11 +35,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private double lattitude;
     private double longitude;
     private Map<Marker,PropertyPojo> markerMap;
+
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.gcekta.mortgagecalculator.R;
+
+
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback{
+    private GoogleMap mMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_map);
+
         database = new PropertyDataSource(this);
         database.open();
         markerMap = new HashMap<Marker,PropertyPojo>();
@@ -50,6 +65,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         database.createPropertyInfo(obj);*/
         geocoder = new Geocoder(getBaseContext());
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
