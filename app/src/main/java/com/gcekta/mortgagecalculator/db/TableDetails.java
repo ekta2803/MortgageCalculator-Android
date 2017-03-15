@@ -28,4 +28,6 @@ class TableDetails {
 
     public static final String COLUMN_LOAN_TERMS = "terms";
 
+    public static final String COLUMN_MONTHLY_PMT = "monthly_payment";
+
 }
