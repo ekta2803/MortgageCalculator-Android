@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
 
@@ -47,7 +48,8 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
-        database.insert(TableDetails.TABLE_NAME,null,values);
+        long status = database.insert(TableDetails.TABLE_NAME,null,values);
+
     }
 
     /*

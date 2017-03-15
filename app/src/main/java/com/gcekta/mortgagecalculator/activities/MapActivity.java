@@ -52,12 +52,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         obj.setCity("San Jose");
         obj.setState("California");
         obj.setZipcode("95112");
-        obj.setLoanAmount(100000);
+        obj.setPropertyPrice(100000);
         obj.setDownPayment(10000);
         obj.setApr(3.92);
         obj.setLoanTerms(30);
 
         database.createPropertyInfo(obj);*/
+        //database.deleteAll();
         geocoder = new Geocoder(getBaseContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
