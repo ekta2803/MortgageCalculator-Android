@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MortgageCalculator.iml" filepath="$PROJECT_DIR$/MortgageCalculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/MortgageCalculator-Android.iml" filepath="$PROJECT_DIR$/MortgageCalculator-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MortgageCalculator-Android.iml" filepath="$PROJECT_DIR$/MortgageCalculator-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

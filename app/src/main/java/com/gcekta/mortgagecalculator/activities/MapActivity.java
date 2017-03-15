@@ -36,13 +36,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private double longitude;
     private Map<Marker,PropertyPojo> markerMap;
 
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.gcekta.mortgagecalculator.R;
-
-
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback{
-    private GoogleMap mMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
