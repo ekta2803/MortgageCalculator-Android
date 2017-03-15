@@ -47,5 +47,5 @@
         <item>NY</item>
         <item>WA</item>
     </string-array>
-
+    <string name="address_invalid_message">The address you entered seems invalid. Use \'Search Tool\' rather.</string>
 </resources>

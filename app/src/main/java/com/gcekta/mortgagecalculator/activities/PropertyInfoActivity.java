@@ -1,5 +1,6 @@
 package com.gcekta.mortgagecalculator.activities;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -23,9 +24,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.gcekta.mortgagecalculator.R;
+import com.gcekta.mortgagecalculator.db.PropertyDataSource;
+import com.gcekta.mortgagecalculator.model.PropertyPojo;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -66,11 +71,33 @@ public class PropertyInfoActivity extends AppCompatActivity
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        AutocompleteFilter countryFilter = new AutocompleteFilter.Builder()
+                .setCountry("US")
+                .build();
+        autocompleteFragment.setFilter(countryFilter);
+
+        AutocompleteFilter precAddress = new AutocompleteFilter.Builder()
+                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                .build();
+        autocompleteFragment.setFilter(precAddress);
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName());
+
+                String fullAddress = (String) place.getAddress();
+
+                String[] addressArr = fullAddress.split(",");
+                String streetAddressText = addressArr[0].trim();
+                String cityText = addressArr[1].trim();
+                String[] stateZip = addressArr[2].trim().split("\\s+");
+                String stateText = stateZip[0].trim();
+                String zipText = stateZip[1].trim();
+
+                streetAddress.setText(streetAddressText);
+                city.setText(cityText);
+                state.setText(stateText);
+                zip.setText(zipText);
             }
 
             @Override
@@ -116,7 +143,14 @@ public class PropertyInfoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(validateAddress()){
-                    Log.i("Found","Valid Address");
+
+                    Intent propertyIntent = getIntent();
+                    PropertyPojo pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
+
+                    PropertyDataSource database = new PropertyDataSource(getApplicationContext());
+                    database.open();
+                    database.createPropertyInfo(pp);
+                    database.close();
                 }
                 return;
             }
@@ -157,8 +191,6 @@ public class PropertyInfoActivity extends AppCompatActivity
 
             }
         };
-
-
 
         //add All listeners
 
@@ -201,10 +233,9 @@ public class PropertyInfoActivity extends AppCompatActivity
                     " "+String.valueOf(state.getText())+", "+String.valueOf(zip.getText());
             addresses = geocoder.getFromLocationName(String.valueOf(streetAddress.getText()),10);
             if(addresses.size()>0){
-                Log.i("found","Address found");
                 return true;
             }else{
-                Log.i("NotFound","Not found");
+                Toast.makeText(this, R.string.address_invalid_message, Toast.LENGTH_LONG).show();
                 return false;
             }
         } catch (IOException e) {

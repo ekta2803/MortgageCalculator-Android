@@ -26,9 +26,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.gcekta.mortgagecalculator.R;
+import com.gcekta.mortgagecalculator.db.PropertyDataSource;
 import com.gcekta.mortgagecalculator.model.Calculations;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 
 public class CalculationActivity extends AppCompatActivity
@@ -100,6 +102,7 @@ public class CalculationActivity extends AppCompatActivity
                         break;
                     case R.id.fabSave:
                         Intent savePropIntent = new Intent(getApplicationContext(), PropertyInfoActivity.class);
+                        savePropIntent.putExtra("PPPOJO", (Serializable) pp);
                         startActivity(savePropIntent);
                         break;
                 }

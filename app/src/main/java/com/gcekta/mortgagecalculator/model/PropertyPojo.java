@@ -1,10 +1,13 @@
 package com.gcekta.mortgagecalculator.model;
 
+import java.io.Serializable;
+
 /**
  * Created by ekta2803 on 3/11/17.
  */
 
-public class PropertyPojo {
+@SuppressWarnings("serial")
+public class PropertyPojo implements Serializable {
 
 
 
