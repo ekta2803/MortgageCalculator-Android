@@ -1,5 +1,7 @@
 package com.gcekta.mortgagecalculator.activities;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -27,6 +30,9 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
+import java.io.IOException;
+import java.util.List;
+
 public class PropertyInfoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,9 +41,10 @@ public class PropertyInfoActivity extends AppCompatActivity
     private FloatingActionButton fab;
     private Spinner propertyType;
     private TextInputLayout streetAddressLayout, zipLayout;
-    private EditText streetAddress, zip;
+    private EditText streetAddress, zip, city;
     private AutoCompleteTextView state;
-
+    private Button saveProperty;
+    private Geocoder geocoder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +97,10 @@ public class PropertyInfoActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item);
         propTypeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         propertyType.setAdapter(propTypeAdapter);
-
+        saveProperty = (Button)findViewById(R.id.savePropertyBtn);
         streetAddressLayout = (TextInputLayout) findViewById(R.id.street_text_layout);
         streetAddress = (EditText) findViewById(R.id.street_text);
+        city = (EditText) findViewById(R.id.city_text);
 
         state = (AutoCompleteTextView) findViewById(R.id.state_text);
         ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this,
@@ -104,6 +112,16 @@ public class PropertyInfoActivity extends AppCompatActivity
         zipLayout = (TextInputLayout) findViewById(R.id.zip_text_layout);
         zip = (EditText) findViewById(R.id.zip_text);
 
+        View.OnClickListener savePropertyListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateAddress()){
+                    Log.i("Found","Valid Address");
+                }
+                return;
+            }
+        };
+        saveProperty.setOnClickListener(savePropertyListener);
 
         //Text Field listeners
         TextWatcher streetAddressWatcher = new TextWatcher() {
@@ -172,6 +190,27 @@ public class PropertyInfoActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public boolean validateAddress(){
+        List<Address> addresses = null;
+        try {
+
+            geocoder = new Geocoder(getBaseContext());
+            String fullAddr = String.valueOf(streetAddress.getText()) + ", "+ String.valueOf(city.getText())+"," +
+                    " "+String.valueOf(state.getText())+", "+String.valueOf(zip.getText());
+            addresses = geocoder.getFromLocationName(String.valueOf(streetAddress.getText()),10);
+            if(addresses.size()>0){
+                Log.i("found","Address found");
+                return true;
+            }else{
+                Log.i("NotFound","Not found");
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
