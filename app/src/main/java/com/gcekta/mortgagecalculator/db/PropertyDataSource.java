@@ -145,4 +145,9 @@ public class PropertyDataSource {
         database.delete(TableDetails.TABLE_NAME, TableDetails.COLUMN_PROP_ID+"=?",
                 new String[] { String.valueOf(property.getPropertyId()) });
     }
+
+    public void deleteAll(){
+        database = dbHelper.getWritableDatabase();
+        int status = database.delete(TableDetails.TABLE_NAME,"1",null);
+    }
 }

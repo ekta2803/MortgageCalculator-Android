@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class PropertyInfoActivity extends AppCompatActivity
     private AutoCompleteTextView state;
     private Button saveProperty;
     private Geocoder geocoder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +126,7 @@ public class PropertyInfoActivity extends AppCompatActivity
                 android.R.layout.simple_spinner_item);
         propTypeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         propertyType.setAdapter(propTypeAdapter);
-        saveProperty = (Button)findViewById(R.id.savePropertyBtn);
+
         streetAddressLayout = (TextInputLayout) findViewById(R.id.street_text_layout);
         streetAddress = (EditText) findViewById(R.id.street_text);
         city = (EditText) findViewById(R.id.city_text);
@@ -139,6 +141,8 @@ public class PropertyInfoActivity extends AppCompatActivity
         zipLayout = (TextInputLayout) findViewById(R.id.zip_text_layout);
         zip = (EditText) findViewById(R.id.zip_text);
 
+        saveProperty = (Button)findViewById(R.id.savePropertyBtn);
+
         View.OnClickListener savePropertyListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +150,9 @@ public class PropertyInfoActivity extends AppCompatActivity
 
                     Intent propertyIntent = getIntent();
                     PropertyPojo pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
+
+                    updatePropertyDetails(pp);
+
 
                     PropertyDataSource database = new PropertyDataSource(getApplicationContext());
                     database.open();
@@ -196,6 +203,7 @@ public class PropertyInfoActivity extends AppCompatActivity
 
     }
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -214,9 +222,12 @@ public class PropertyInfoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_new_calc) {
+            Intent i = new Intent(this, CalculationActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_saved_calc) {
-
+            Intent i = new Intent(this,MapActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -242,6 +253,14 @@ public class PropertyInfoActivity extends AppCompatActivity
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void updatePropertyDetails(PropertyPojo pp) {
+        pp.setPropertyType(propertyType.getSelectedItem().toString());
+        pp.setAddress(String.valueOf(streetAddress.getText()));
+        pp.setCity(String.valueOf(city.getText()));
+        pp.setState(String.valueOf(state.getText()));
+        pp.setZipcode(String.valueOf(zip.getText()));
     }
 
 }

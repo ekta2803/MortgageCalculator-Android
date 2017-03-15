@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.TextView;
 import com.gcekta.mortgagecalculator.db.PropertyDataSource;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
@@ -79,16 +80,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
             try {
                 List<Address> addresses = geocoder.getFromLocationName(address, 1);
-                Address addr = addresses.get(0);
-                lattitude = addr.getLatitude();
-                longitude = addr.getLongitude();
-                LatLng geoLocation = new LatLng(lattitude, longitude);
-                Marker markerObj = mMap.addMarker(new MarkerOptions().position(geoLocation).title(pojo.getAddress()));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geoLocation,12));
-                mMap.setMinZoomPreference(6.0f);
-                mMap.setMaxZoomPreference(14.0f);
-                markerMap.put(markerObj,pojo);
-                mMap.setOnMarkerClickListener(this);
+                if(addresses.size()>0){
+                    Address addr = addresses.get(0);
+                    Log.i("addr",String.valueOf(addr.getLatitude()));
+                    lattitude = addr.getLatitude();
+                    longitude = addr.getLongitude();
+                    LatLng geoLocation = new LatLng(lattitude, longitude);
+                    Marker markerObj = mMap.addMarker(new MarkerOptions().position(geoLocation).title(pojo.getAddress()));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geoLocation,12));
+                    mMap.setMinZoomPreference(6.0f);
+                    mMap.setMaxZoomPreference(14.0f);
+                    markerMap.put(markerObj,pojo);
+                    mMap.setOnMarkerClickListener(this);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
