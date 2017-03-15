@@ -26,11 +26,26 @@
     <string name="proptypelabel">Property Type</string>
 
     <string name="proptypeprompt">Choose a Type</string>
+    <string name="street_label">Street Address</string>
+    <string name="city_label">City</string>
+    <string name="state_label">State</string>
+    <string name="zip_label">Zip</string>
+    <string name="save_btn_label">Save Property</string>
+    <string name="search_btn_label">Search Address</string>
+    <string name="enter_manual">Enter Address</string>
+    <string name="search_address">Search Address</string>
+    <string name="or">OR</string>
 
     <string-array name="proptypearray">
         <item>House</item>
         <item>Town House</item>
         <item>Condo</item>
+    </string-array>
+
+    <string-array name="statearray">
+        <item>CA</item>
+        <item>NY</item>
+        <item>WA</item>
     </string-array>
 
 </resources>
