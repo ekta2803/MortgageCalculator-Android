@@ -21,6 +21,16 @@ public class PropertyPojo implements Serializable {
     double downPayment;
     double apr;
     int loanTerms;
+    double monthlyPayment;
+
+
+    public double getMonthlyPayment() {
+        return monthlyPayment;
+    }
+
+    public void setMonthlyPayment(double monthlyPayment) {
+        this.monthlyPayment = monthlyPayment;
+    }
 
 
     public int getLoanTerms() {

@@ -266,7 +266,9 @@ public class CalculationActivity extends AppCompatActivity
                     }
 
                     String monthlyPaymentValue = NumberFormat.getCurrencyInstance().format((Calculations.calculateMonthlyPayment(pp)));
+                    Log.i("Month",monthlyPaymentValue);
                     monthlyPayment.setText(monthlyPaymentValue);
+
                 }
             }
         };

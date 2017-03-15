@@ -59,6 +59,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         database.createPropertyInfo(obj);*/
         //database.deleteAll();
+        //database.dropTable();
         geocoder = new Geocoder(getBaseContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -133,7 +134,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
             TextView term = (TextView) dialog.findViewById(R.id.term_val);
             term.setText(String.valueOf(pojoObj.getLoanTerms()+" years"));
+
+            TextView monthlyPmt = (TextView) dialog.findViewById(R.id.monthly_pmt_val);
+            monthlyPmt.setText(String.valueOf("$"+pojoObj.getMonthlyPayment()));
             dialog.show();
+
+
         }
 
         return false;
