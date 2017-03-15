@@ -43,7 +43,7 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
-        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmount());
+        values.put(TableDetails.COLUMN_LOAN_AMT,property.getPropertyPrice());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
@@ -71,7 +71,7 @@ public class PropertyDataSource {
             property.setCity(cursor.getString(3));
             property.setState(cursor.getString(4));
             property.setZipcode(cursor.getString(5));
-            property.setLoanAmount(Double.parseDouble(cursor.getString(6)));
+            property.setPropertyPrice(Double.parseDouble(cursor.getString(6)));
             property.setDownPayment(Double.parseDouble(cursor.getString(7)));
             property.setApr(Double.parseDouble(cursor.getString(8)));
             property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
@@ -102,7 +102,7 @@ public class PropertyDataSource {
                 property.setCity(cursor.getString(3));
                 property.setState(cursor.getString(4));
                 property.setZipcode(cursor.getString(5));
-                property.setLoanAmount(Double.parseDouble(cursor.getString(6)));
+                property.setPropertyPrice(Double.parseDouble(cursor.getString(6)));
                 property.setDownPayment(Double.parseDouble(cursor.getString(7)));
                 property.setApr(Double.parseDouble(cursor.getString(8)));
                 property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
@@ -127,7 +127,7 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
-        values.put(TableDetails.COLUMN_LOAN_AMT,property.getLoanAmount());
+        values.put(TableDetails.COLUMN_LOAN_AMT,property.getPropertyPrice());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());

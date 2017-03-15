@@ -6,7 +6,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="down_payment_label">Down Payment</string>
-    <string name="loan_amount_label">Loan Amount</string>
+    <string name="prop_price_label">Property Price</string>
     <string name="apr_label">APR</string>
     <string name="term_label">Loan Term</string>
     <string name="fifteen_label">15 Years</string>
@@ -23,4 +23,29 @@
     <string name="nav_header_text">Options</string>
     <string name="nav_new_calc_title">New Calculation</string>
     <string name="nav_saved_calc">Saved Calculations</string>
+    <string name="proptypelabel">Property Type</string>
+
+    <string name="proptypeprompt">Choose a Type</string>
+    <string name="street_label">Street Address</string>
+    <string name="city_label">City</string>
+    <string name="state_label">State</string>
+    <string name="zip_label">Zip</string>
+    <string name="save_btn_label">Save Property</string>
+    <string name="search_btn_label">Search Address</string>
+    <string name="enter_manual">Enter Address</string>
+    <string name="search_address">Search Address</string>
+    <string name="or">OR</string>
+
+    <string-array name="proptypearray">
+        <item>House</item>
+        <item>Town House</item>
+        <item>Condo</item>
+    </string-array>
+
+    <string-array name="statearray">
+        <item>CA</item>
+        <item>NY</item>
+        <item>WA</item>
+    </string-array>
+
 </resources>

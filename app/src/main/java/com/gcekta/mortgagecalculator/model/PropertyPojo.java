@@ -14,7 +14,7 @@ public class PropertyPojo {
     String city;
     String state;
     String zipcode;
-    double loanAmount;
+    double propertyPrice;
     double downPayment;
     double apr;
     int loanTerms;
@@ -59,12 +59,12 @@ public class PropertyPojo {
         this.state = state;
     }
 
-    public double getLoanAmount() {
-        return loanAmount;
+    public double getPropertyPrice() {
+        return propertyPrice;
     }
 
-    public void setLoanAmount(double loanAmount) {
-        this.loanAmount = loanAmount;
+    public void setPropertyPrice(double propertyPrice) {
+        this.propertyPrice = propertyPrice;
     }
 
     public double getDownPayment() {

@@ -19,15 +19,15 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loan_amt_text_layout"
+        android:id="@+id/prop_price_text_layout"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp">
 
         <EditText
             android:layout_width="match_parent"
-            android:id="@+id/loan_amt_text"
-            android:hint="@string/loan_amount_label"
+            android:id="@+id/prop_price_text"
+            android:hint="@string/prop_price_label"
             android:inputType="number"
             android:layout_height="wrap_content" />
 
