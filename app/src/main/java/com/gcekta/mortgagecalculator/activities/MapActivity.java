@@ -118,7 +118,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             zipcode.setText(pojoObj.getZipcode());
 
             TextView loanAmt = (TextView) dialog.findViewById(R.id.loan_amt_val);
-            loanAmt.setText("$"+String.valueOf(pojoObj.getLoanAmount()));
+            loanAmt.setText("$"+String.valueOf(pojoObj.getPropertyPrice()));
 
             TextView dwnPmt = (TextView) dialog.findViewById(R.id.down_pmt_val);
             dwnPmt.setText("$"+String.valueOf(pojoObj.getDownPayment()));
