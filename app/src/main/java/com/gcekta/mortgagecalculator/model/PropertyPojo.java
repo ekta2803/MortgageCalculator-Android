@@ -22,6 +22,7 @@ public class PropertyPojo implements Serializable {
     double apr;
     int loanTerms;
 
+
     public int getLoanTerms() {
         return loanTerms;
     }
