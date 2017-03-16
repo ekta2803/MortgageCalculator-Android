@@ -14,8 +14,9 @@
     <string name="monthly_payment_label">Monthly Payment</string>
     <string name="monthly_payment_default">$0.00</string>
 
-    <string name="clear_alert_title">Are you sure?</string>
+    <string name="alert_title">Are you sure?</string>
     <string name="clear_alert_msg">This will clear the current calculations.</string>
+    <string name="delete_alert_msg">This will delete details and calculation for </string>
     <string name="clear_alert_yes">Yes</string>
     <string name="clear_alert_no">No</string>
     <string name="calc_btn_label">Calculate Monthly Payment</string>
@@ -42,12 +43,66 @@
         <item>Condo</item>
     </string-array>
 
-    <string-array name="statearray">
-        <item>CA</item>
-        <item>NY</item>
-        <item>WA</item>
-    </string-array>
     <string name="address_invalid_message">The address you entered seems invalid. Use \'Search Tool\' rather.</string>
     <string name="property_saved_message">Property has been saved.</string>
-    <string name="property_not_saved_message">Something went wrong. Try again.</string>
+    <string name="something_wrong_msg">Something went wrong. Try again.</string>
+    <string name="calc_edited_message">Edited calculation has been saved.</string>
+    <string name="deleted_message">Property details and calculation have been deleted.</string>
+    <string name="edit_title">Calculation for: </string>
+    <string name="save_edits_label">Save Edited Calculations</string>
+
+
+    <string-array name="statearray">
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>DC</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
+    </string-array>
 </resources>

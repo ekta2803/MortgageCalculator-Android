@@ -1,145 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_calculation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.gcekta.mortgagecalculator.activities.CalculationActivity"
-    tools:showIn="@layout/app_bar_calculation"
-    android:orientation="vertical"
-    android:baselineAligned="false"
-    app:layout_collapseParallaxMultiplier="1.0"
-    app:layout_scrollFlags="scroll"
-    android:weightSum="1"
-    android:padding="@dimen/activity_vertical_margin">
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/prop_price_text_layout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:id="@+id/prop_price_text"
-            android:hint="@string/prop_price_label"
-            android:inputType="number"
-            android:layout_height="wrap_content" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/down_payment_text_layout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/down_payment"
-            android:hint="@string/down_payment_label"
-            android:inputType="number" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/apr_text_layout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp">
-
-        <EditText
-            android:layout_height="wrap_content"
-            android:id="@+id/apr"
-            android:hint="@string/apr_label"
-            android:inputType="number"
-            android:layout_width="84dp" />
-
-    </android.support.design.widget.TextInputLayout>
+    tools:showIn="@layout/app_bar_calculation">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="12dp">
-
-        <TextView
-            android:text="@string/term_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.11"
-            android:padding="5dp"
-            android:textSize="18sp" />
-
-        <RadioGroup
-            android:id="@+id/loanterm"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:text="@string/fifteen_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/years15"
-                android:checked="true" />
-
-            <RadioButton
-                android:text="@string/thirty_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/years30" />
-
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <Button
-        android:text="@string/calc_btn_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calcbtn"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:textSize="18sp" />
-
-    <LinearLayout
+        android:id="@+id/content_calculation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="12dp">
+        android:baselineAligned="false"
+        app:layout_collapseParallaxMultiplier="1.0"
+        app:layout_scrollFlags="scroll"
+        android:weightSum="1"
+        android:padding="@dimen/activity_vertical_margin">
+
 
         <TextView
-            android:text="@string/monthly_payment_label"
+            android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/edit_title"
             android:textSize="24sp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
-            android:text="@string/monthly_payment_default"
+            android:id="@+id/calc_for"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/monthlypayment"
-            android:textSize="48sp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textSize="24sp"
+            android:textStyle="italic"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/prop_price_text_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/prop_price_text"
+                android:hint="@string/prop_price_label"
+                android:inputType="number"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/down_payment_text_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/down_payment"
+                android:hint="@string/down_payment_label"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/apr_text_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:id="@+id/apr"
+                android:hint="@string/apr_label"
+                android:inputType="number"
+                android:layout_width="84dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:text="@string/term_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.11"
+                android:padding="5dp"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/loanterm"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:text="@string/fifteen_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/years15"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:text="@string/thirty_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/years30" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:text="@string/calc_btn_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/calcbtn"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:text="@string/monthly_payment_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <TextView
+                android:text="@string/monthly_payment_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/monthlypayment"
+                android:textSize="48sp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <Button
+                android:id="@+id/save_edits"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_edits_label"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
 
+</ScrollView>
 
-</LinearLayout>

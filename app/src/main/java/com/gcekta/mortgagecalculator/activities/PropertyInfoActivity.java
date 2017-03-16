@@ -7,10 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,9 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -41,8 +36,6 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import java.io.IOException;
 import java.util.List;
 
-import static com.gcekta.mortgagecalculator.R.id.apr;
-
 public class PropertyInfoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,6 +48,7 @@ public class PropertyInfoActivity extends AppCompatActivity
     private AutoCompleteTextView state;
     private Button saveProperty;
     private Geocoder geocoder;
+    private PropertyPojo pp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +65,7 @@ public class PropertyInfoActivity extends AppCompatActivity
             public void onClick(View v) {
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
                 alertBuilder
-                        .setTitle(R.string.clear_alert_title)
+                        .setTitle(R.string.alert_title)
                         .setMessage(R.string.clear_alert_msg)
                         .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
                             @Override
@@ -171,19 +165,14 @@ public class PropertyInfoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(validateAddress()){
-
-                    Intent propertyIntent = getIntent();
-                    PropertyPojo pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
-
                     updatePropertyDetails(pp);
-
 
                     PropertyDataSource database = new PropertyDataSource(getApplicationContext());
                     database.open();
                     if(database.createPropertyInfo(pp)){
                         Toast.makeText(getApplicationContext(), R.string.property_saved_message, Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(getApplicationContext(), R.string.property_not_saved_message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_wrong_msg, Toast.LENGTH_LONG).show();
                     }
                     database.close();
                 }
@@ -192,42 +181,27 @@ public class PropertyInfoActivity extends AppCompatActivity
         };
         saveProperty.setOnClickListener(savePropertyListener);
 
-        //Text Field listeners
-        TextWatcher streetAddressWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Intent propertyIntent = getIntent();
+        pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
+        if(pp.getAddress() != null){
 
+            switch (pp.getPropertyType()){
+                case "House":
+                    propertyType.setSelection(0);
+                    break;
+                case "Town House":
+                    propertyType.setSelection(1);
+                    break;
+                case "Condo":
+                    propertyType.setSelection(2);
+                    break;
             }
+            streetAddress.setText(pp.getAddress());
+            city.setText(pp.getCity());
+            state.setText(pp.getState());
+            zip.setText(pp.getZipcode());
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        TextWatcher zipWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        //add All listeners
+        }
 
     }
 
@@ -252,7 +226,7 @@ public class PropertyInfoActivity extends AppCompatActivity
         if (id == R.id.nav_new_calc) {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
             alertBuilder
-                    .setTitle(R.string.clear_alert_title)
+                    .setTitle(R.string.alert_title)
                     .setMessage(R.string.clear_alert_msg)
                     .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
                         @Override
