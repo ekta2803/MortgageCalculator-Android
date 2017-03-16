@@ -1,14 +1,13 @@
 package com.gcekta.mortgagecalculator.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,9 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -44,13 +41,14 @@ public class PropertyInfoActivity extends AppCompatActivity
 
     private static final String TAG = "PropertyInfoActivity";
 
-    private FloatingActionButton fab;
+    private FloatingActionButton fabMainPropInfo;
     private Spinner propertyType;
     private TextInputLayout streetAddressLayout, zipLayout;
     private EditText streetAddress, zip, city;
     private AutoCompleteTextView state;
     private Button saveProperty;
     private Geocoder geocoder;
+    private PropertyPojo pp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +57,36 @@ public class PropertyInfoActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarpropinfo);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton)findViewById(R.id.fabMain);
+        fabMainPropInfo = (FloatingActionButton)findViewById(R.id.fabMainPropInfo);
 
 
-//        View.OnClickListener fabListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                return;
-//            }
-//        };
-//        fab.setOnClickListener(fabListener);
+        View.OnClickListener fabListenerProp = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
+                alertBuilder
+                        .setTitle(R.string.alert_title)
+                        .setMessage(R.string.clear_alert_msg)
+                        .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(getApplicationContext(), CalculationActivity.class);
+                                startActivity(i);
+                                return;
+                            }
+                        })
+                        .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+
+                alertBuilder.create().show();
+                return;
+            }
+        };
+        fabMainPropInfo.setOnClickListener(fabListenerProp);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -147,16 +165,15 @@ public class PropertyInfoActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(validateAddress()){
-
-                    Intent propertyIntent = getIntent();
-                    PropertyPojo pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
-
                     updatePropertyDetails(pp);
-
 
                     PropertyDataSource database = new PropertyDataSource(getApplicationContext());
                     database.open();
-                    database.createPropertyInfo(pp);
+                    if(database.createPropertyInfo(pp)){
+                        Toast.makeText(getApplicationContext(), R.string.property_saved_message, Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), R.string.something_wrong_msg, Toast.LENGTH_LONG).show();
+                    }
                     database.close();
                 }
                 return;
@@ -164,42 +181,27 @@ public class PropertyInfoActivity extends AppCompatActivity
         };
         saveProperty.setOnClickListener(savePropertyListener);
 
-        //Text Field listeners
-        TextWatcher streetAddressWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Intent propertyIntent = getIntent();
+        pp = (PropertyPojo) propertyIntent.getSerializableExtra("PPPOJO");
+        if(pp.getAddress() != null){
 
+            switch (pp.getPropertyType()){
+                case "House":
+                    propertyType.setSelection(0);
+                    break;
+                case "Town House":
+                    propertyType.setSelection(1);
+                    break;
+                case "Condo":
+                    propertyType.setSelection(2);
+                    break;
             }
+            streetAddress.setText(pp.getAddress());
+            city.setText(pp.getCity());
+            state.setText(pp.getState());
+            zip.setText(pp.getZipcode());
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        TextWatcher zipWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        //add All listeners
+        }
 
     }
 
@@ -222,8 +224,26 @@ public class PropertyInfoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_new_calc) {
-            Intent i = new Intent(this, CalculationActivity.class);
-            startActivity(i);
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
+            alertBuilder
+                    .setTitle(R.string.alert_title)
+                    .setMessage(R.string.clear_alert_msg)
+                    .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(getApplicationContext(), CalculationActivity.class);
+                            startActivity(i);
+                            return;
+                        }
+                    })
+                    .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+
+            alertBuilder.create().show();
 
         } else if (id == R.id.nav_saved_calc) {
             Intent i = new Intent(this,MapActivity.class);

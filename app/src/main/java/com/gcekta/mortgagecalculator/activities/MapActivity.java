@@ -3,17 +3,22 @@ package com.gcekta.mortgagecalculator.activities;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.gcekta.mortgagecalculator.db.PropertyDataSource;
+import com.gcekta.mortgagecalculator.dialogs.MapDialog;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
-
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,15 +32,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.gcekta.mortgagecalculator.R;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import java.io.IOException;
+import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.*;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener{
+public class MapActivity extends FragmentActivity
+        implements OnMapReadyCallback, OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
     private GoogleMap mMap;
     private PropertyDataSource database;
     private Geocoder geocoder;
     private double lattitude;
     private double longitude;
     private Map<Marker,PropertyPojo> markerMap;
+
+    private PropertyPojo pojoObj;
+    public PropertyPojo getPojoObj() {
+        return pojoObj;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +59,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         database = new PropertyDataSource(this);
         database.open();
         markerMap = new HashMap<Marker,PropertyPojo>();
-        /*PropertyPojo obj = new PropertyPojo();
-        obj.setPropertyType("Housing");
-        obj.setAddress("201 S 4th ST");
-        obj.setCity("San Jose");
-        obj.setState("California");
-        obj.setZipcode("95112");
-        obj.setPropertyPrice(100000);
-        obj.setDownPayment(10000);
-        obj.setApr(3.92);
-        obj.setLoanTerms(30);
 
-        database.createPropertyInfo(obj);*/
-        //database.deleteAll();
-        //database.dropTable();
         geocoder = new Geocoder(getBaseContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.content_map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -84,7 +85,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 List<Address> addresses = geocoder.getFromLocationName(address, 1);
                 if(addresses.size()>0){
                     Address addr = addresses.get(0);
-                    Log.i("addr",String.valueOf(addr.getLatitude()));
                     lattitude = addr.getLatitude();
                     longitude = addr.getLongitude();
                     LatLng geoLocation = new LatLng(lattitude, longitude);
@@ -105,43 +105,39 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public boolean onMarkerClick(Marker marker) {
         if(markerMap.containsKey(marker)){
-            PropertyPojo pojoObj = markerMap.get(marker);
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.custom_dialog);
-            TextView propType = (TextView) dialog.findViewById(R.id.property_type_val);
-            propType.setText(pojoObj.getPropertyType());
-
-            TextView propAddr = (TextView) dialog.findViewById(R.id.property_addr_val);
-            propAddr.setText(pojoObj.getAddress());
-
-            TextView city = (TextView) dialog.findViewById(R.id.city_val);
-            city.setText(pojoObj.getCity());
-
-            TextView state = (TextView) dialog.findViewById(R.id.state_val);
-            state.setText(pojoObj.getState());
-
-            TextView zipcode = (TextView) dialog.findViewById(R.id.zipcode_val);
-            zipcode.setText(pojoObj.getZipcode());
-
-            TextView loanAmt = (TextView) dialog.findViewById(R.id.loan_amt_val);
-            loanAmt.setText("$"+String.valueOf(pojoObj.getPropertyPrice()));
-
-            TextView dwnPmt = (TextView) dialog.findViewById(R.id.down_pmt_val);
-            dwnPmt.setText("$"+String.valueOf(pojoObj.getDownPayment()));
-
-            TextView apr = (TextView) dialog.findViewById(R.id.apr_val);
-            apr.setText(String.valueOf(pojoObj.getApr())+" %");
-
-            TextView term = (TextView) dialog.findViewById(R.id.term_val);
-            term.setText(String.valueOf(pojoObj.getLoanTerms()+" years"));
-
-            TextView monthlyPmt = (TextView) dialog.findViewById(R.id.monthly_pmt_val);
-            monthlyPmt.setText(String.valueOf("$"+pojoObj.getMonthlyPayment()));
-            dialog.show();
-
+            pojoObj = markerMap.get(marker);
+            MapDialog mapDialog = new MapDialog(this, marker);
+            mapDialog.show();
 
         }
 
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_new_calc) {
+            Intent i = new Intent(this, CalculationActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_saved_calc) {
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

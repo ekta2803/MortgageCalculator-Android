@@ -36,7 +36,7 @@ public class PropertyDataSource {
     * parameter: PropertyPojo
     * return: void
     * */
-    public void createPropertyInfo(PropertyPojo property){
+    public boolean createPropertyInfo(PropertyPojo property){
 
         ContentValues values = new ContentValues();
         values.put(TableDetails.COLUMN_PROP_TYPE,property.getPropertyType());
@@ -49,7 +49,11 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
         values.put(TableDetails.COLUMN_MONTHLY_PMT,property.getMonthlyPayment());
-        long status = database.insert(TableDetails.TABLE_NAME,"nullColumnHack",values);
+        long status = database.insert(TableDetails.TABLE_NAME,null,values);
+        if(status == -1){
+            return false;
+        }
+        return true;
 
     }
 
@@ -145,9 +149,9 @@ public class PropertyDataSource {
    * parameter: PropertyPogo object
    * return: void
    * */
-    public void deleteProperty(PropertyPojo property){
+    public int deleteProperty(PropertyPojo property){
         database = dbHelper.getWritableDatabase();
-        database.delete(TableDetails.TABLE_NAME, TableDetails.COLUMN_PROP_ID+"=?",
+        return database.delete(TableDetails.TABLE_NAME, TableDetails.COLUMN_PROP_ID+"=?",
                 new String[] { String.valueOf(property.getPropertyId()) });
     }
 
