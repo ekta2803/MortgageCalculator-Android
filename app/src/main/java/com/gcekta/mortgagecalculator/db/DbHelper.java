@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_CREATE="Create table if not exists"+TableDetails.TABLE_NAME +
+    private static final String DATABASE_CREATE="Create table if not exists "+TableDetails.TABLE_NAME +
             "("+TableDetails.COLUMN_PROP_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"+
             TableDetails.COLUMN_PROP_TYPE +" TEXT, " +
             TableDetails.COLUMN_PROP_ADDRESS +" TEXT," +
@@ -21,7 +21,9 @@ public class DbHelper extends SQLiteOpenHelper {
             TableDetails.COLUMN_LOAN_AMT+" REAL," +
             TableDetails.COLUMN_LOAN_DWN_PYMT+" REAL," +
             TableDetails.COLUMN_LOAN_APR+" REAL," +
-            TableDetails.COLUMN_LOAN_TERMS+" INTEGER)";
+            TableDetails.COLUMN_LOAN_TERMS+" INTEGER," +
+            TableDetails.COLUMN_MONTHLY_PMT+" REAL)"+";";
+
 
     private static final int DATABASE_VERSION = 1;
 

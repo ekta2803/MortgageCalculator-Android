@@ -26,19 +26,18 @@
         android:layout_marginStart="55dp"
         android:layout_toEndOf="@+id/property_type"
         android:layout_toRightOf="@+id/property_type"
-        android:text="Housing"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/property_addr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/property_type"
+        android:layout_alignStart="@+id/property_type"
+        android:layout_below="@+id/property_type"
         android:layout_marginTop="24dp"
         android:text="Property Address"
-        android:textSize="14sp"
-        android:layout_below="@+id/property_type"
-        android:layout_alignLeft="@+id/property_type"
-        android:layout_alignStart="@+id/property_type" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/city"
@@ -55,12 +54,11 @@
         android:id="@+id/property_addr_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="201 S 4th st"
-        android:textSize="14sp"
         android:layout_alignBaseline="@+id/property_addr"
         android:layout_alignBottom="@+id/property_addr"
         android:layout_alignLeft="@+id/property_type_val"
-        android:layout_alignStart="@+id/property_type_val" />
+        android:layout_alignStart="@+id/property_type_val"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/city_val"
@@ -69,7 +67,6 @@
         android:layout_alignLeft="@+id/property_addr_val"
         android:layout_alignStart="@+id/property_addr_val"
         android:layout_alignTop="@+id/city"
-        android:text="San Jose"
         android:textSize="14sp" />
 
     <TextView
@@ -88,8 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/state"
         android:layout_alignEnd="@+id/city_val"
-        android:layout_alignRight="@+id/city_val"
-        android:text="California" />
+        android:layout_alignRight="@+id/city_val" />
 
     <TextView
         android:id="@+id/zipcode"
@@ -105,7 +101,6 @@
         android:id="@+id/zipcode_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="95112"
         android:layout_alignBaseline="@+id/zipcode"
         android:layout_alignBottom="@+id/zipcode"
         android:layout_alignLeft="@+id/city_val"
@@ -127,8 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/zipcode_val"
         android:layout_alignStart="@+id/zipcode_val"
-        android:layout_alignTop="@+id/loan_amt"
-        android:text="100000" />
+        android:layout_alignTop="@+id/loan_amt" />
 
     <TextView
         android:id="@+id/down_pmt"
@@ -146,8 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/loan_amt_val"
         android:layout_alignStart="@+id/loan_amt_val"
-        android:layout_alignTop="@+id/down_pmt"
-        android:text="10000" />
+        android:layout_alignTop="@+id/down_pmt" />
 
     <TextView
         android:id="@+id/apr"
@@ -163,10 +156,10 @@
         android:id="@+id/apr_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3.92"
         android:layout_above="@+id/term"
         android:layout_alignLeft="@+id/down_pmt_val"
-        android:layout_alignStart="@+id/down_pmt_val" />
+        android:layout_alignStart="@+id/down_pmt_val"
+        android:text="3.92" />
 
     <TextView
         android:id="@+id/term"
@@ -186,6 +179,25 @@
         android:layout_alignStart="@+id/down_pmt_val"
         android:layout_alignTop="@+id/term"
         android:text="30" />
+
+    <TextView
+        android:id="@+id/mothly_pmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/term"
+        android:layout_alignStart="@+id/term"
+        android:layout_below="@+id/term"
+        android:layout_marginTop="22dp"
+        android:text="Monthly Payment" />
+
+    <TextView
+        android:id="@+id/monthly_pmt_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/mothly_pmt"
+        android:layout_alignLeft="@+id/term_val"
+        android:layout_alignStart="@+id/term_val"
+        android:text="2341" />
 
 
 </RelativeLayout>

@@ -16,7 +16,7 @@ public class Calculations {
         double n = pp.getLoanTerms()*12;
         double calc = p * r * Math.pow((1 + r), n);
         double calc1 = calc/(Math.pow((1 + r), n)-1);
-
+        pp.setMonthlyPayment(calc1);
         return calc1;
     }
 

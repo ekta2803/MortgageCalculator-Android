@@ -36,7 +36,7 @@ public class PropertyDataSource {
     * parameter: PropertyPojo
     * return: void
     * */
-    public boolean createPropertyInfo(PropertyPojo property){
+    public void createPropertyInfo(PropertyPojo property){
 
         ContentValues values = new ContentValues();
         values.put(TableDetails.COLUMN_PROP_TYPE,property.getPropertyType());
@@ -48,6 +48,7 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
+        values.put(TableDetails.COLUMN_MONTHLY_PMT,property.getMonthlyPayment());
         long status = database.insert(TableDetails.TABLE_NAME,null,values);
         if(status == -1){
             return false;
@@ -66,7 +67,7 @@ public class PropertyDataSource {
         Cursor cursor = database.query(TableDetails.TABLE_NAME, new String[] { TableDetails.COLUMN_PROP_ID,
                         TableDetails.COLUMN_PROP_TYPE, TableDetails.COLUMN_PROP_ADDRESS,TableDetails.COLUMN_PROP_CITY,
                         TableDetails.COLUMN_PROP_STATE,TableDetails.COLUMN_PROP_ZIPCODE,TableDetails.COLUMN_LOAN_AMT,
-                        TableDetails.COLUMN_LOAN_DWN_PYMT,TableDetails.COLUMN_LOAN_APR,TableDetails.COLUMN_LOAN_TERMS},
+                        TableDetails.COLUMN_LOAN_DWN_PYMT,TableDetails.COLUMN_LOAN_APR,TableDetails.COLUMN_LOAN_TERMS,TableDetails.COLUMN_MONTHLY_PMT},
                         TableDetails.COLUMN_PROP_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null){
             cursor.moveToFirst();
@@ -81,7 +82,7 @@ public class PropertyDataSource {
             property.setDownPayment(Double.parseDouble(cursor.getString(7)));
             property.setApr(Double.parseDouble(cursor.getString(8)));
             property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
-
+            property.setMonthlyPayment(Double.parseDouble(cursor.getString(10)));
             return property;
         }else{
             return null;
@@ -112,6 +113,7 @@ public class PropertyDataSource {
                 property.setDownPayment(Double.parseDouble(cursor.getString(7)));
                 property.setApr(Double.parseDouble(cursor.getString(8)));
                 property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
+                property.setMonthlyPayment(Double.parseDouble(cursor.getString(10)));
                 // Adding contact to list
                 propertyList.add(property);
             } while (cursor.moveToNext());
@@ -137,6 +139,7 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
+        values.put(TableDetails.COLUMN_MONTHLY_PMT,property.getMonthlyPayment());
         return database.update(TableDetails.TABLE_NAME,values, TableDetails.COLUMN_PROP_ID + "=?",
                 new String[] { String.valueOf(property.getPropertyId()) });
     }
@@ -156,4 +159,6 @@ public class PropertyDataSource {
         database = dbHelper.getWritableDatabase();
         int status = database.delete(TableDetails.TABLE_NAME,"1",null);
     }
+
+
 }
