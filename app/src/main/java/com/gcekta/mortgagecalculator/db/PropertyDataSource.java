@@ -36,7 +36,7 @@ public class PropertyDataSource {
     * parameter: PropertyPojo
     * return: void
     * */
-    public void createPropertyInfo(PropertyPojo property){
+    public boolean createPropertyInfo(PropertyPojo property){
 
         ContentValues values = new ContentValues();
         values.put(TableDetails.COLUMN_PROP_TYPE,property.getPropertyType());
@@ -49,6 +49,10 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
         values.put(TableDetails.COLUMN_LOAN_TERMS,property.getLoanTerms());
         long status = database.insert(TableDetails.TABLE_NAME,null,values);
+        if(status == -1){
+            return false;
+        }
+        return true;
 
     }
 

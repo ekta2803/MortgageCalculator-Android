@@ -1,5 +1,7 @@
 package com.gcekta.mortgagecalculator.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -39,12 +41,14 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import java.io.IOException;
 import java.util.List;
 
+import static com.gcekta.mortgagecalculator.R.id.apr;
+
 public class PropertyInfoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "PropertyInfoActivity";
 
-    private FloatingActionButton fab;
+    private FloatingActionButton fabMainPropInfo;
     private Spinner propertyType;
     private TextInputLayout streetAddressLayout, zipLayout;
     private EditText streetAddress, zip, city;
@@ -59,16 +63,36 @@ public class PropertyInfoActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarpropinfo);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton)findViewById(R.id.fabMain);
+        fabMainPropInfo = (FloatingActionButton)findViewById(R.id.fabMainPropInfo);
 
 
-//        View.OnClickListener fabListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                return;
-//            }
-//        };
-//        fab.setOnClickListener(fabListener);
+        View.OnClickListener fabListenerProp = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
+                alertBuilder
+                        .setTitle(R.string.clear_alert_title)
+                        .setMessage(R.string.clear_alert_msg)
+                        .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(getApplicationContext(), CalculationActivity.class);
+                                startActivity(i);
+                                return;
+                            }
+                        })
+                        .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+
+                alertBuilder.create().show();
+                return;
+            }
+        };
+        fabMainPropInfo.setOnClickListener(fabListenerProp);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -156,7 +180,11 @@ public class PropertyInfoActivity extends AppCompatActivity
 
                     PropertyDataSource database = new PropertyDataSource(getApplicationContext());
                     database.open();
-                    database.createPropertyInfo(pp);
+                    if(database.createPropertyInfo(pp)){
+                        Toast.makeText(getApplicationContext(), R.string.property_saved_message, Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), R.string.property_not_saved_message, Toast.LENGTH_LONG).show();
+                    }
                     database.close();
                 }
                 return;
@@ -222,8 +250,26 @@ public class PropertyInfoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_new_calc) {
-            Intent i = new Intent(this, CalculationActivity.class);
-            startActivity(i);
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(PropertyInfoActivity.this);
+            alertBuilder
+                    .setTitle(R.string.clear_alert_title)
+                    .setMessage(R.string.clear_alert_msg)
+                    .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(getApplicationContext(), CalculationActivity.class);
+                            startActivity(i);
+                            return;
+                        }
+                    })
+                    .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+
+            alertBuilder.create().show();
 
         } else if (id == R.id.nav_saved_calc) {
             Intent i = new Intent(this,MapActivity.class);

@@ -48,4 +48,6 @@
         <item>WA</item>
     </string-array>
     <string name="address_invalid_message">The address you entered seems invalid. Use \'Search Tool\' rather.</string>
+    <string name="property_saved_message">Property has been saved.</string>
+    <string name="property_not_saved_message">Something went wrong. Try again.</string>
 </resources>
