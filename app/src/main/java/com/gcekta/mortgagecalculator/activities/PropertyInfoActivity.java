@@ -59,7 +59,6 @@ public class PropertyInfoActivity extends AppCompatActivity
 
         fabMainPropInfo = (FloatingActionButton)findViewById(R.id.fabMainPropInfo);
 
-
         View.OnClickListener fabListenerProp = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
