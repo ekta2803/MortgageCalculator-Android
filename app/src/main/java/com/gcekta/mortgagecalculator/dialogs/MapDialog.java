@@ -16,6 +16,8 @@ import com.gcekta.mortgagecalculator.activities.CalculationActivity;
 import com.gcekta.mortgagecalculator.activities.MapActivity;
 import com.gcekta.mortgagecalculator.db.PropertyDataSource;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 
 import java.io.Serializable;
@@ -42,7 +44,6 @@ public class MapDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_marker_dialog);
-
 
         TextView propType = (TextView) findViewById(R.id.property_type_val);
         propType.setText(pojoObj.getPropertyType());
@@ -93,6 +94,8 @@ public class MapDialog extends Dialog {
                         if(database.deleteProperty(pojoObj) == 1){
                             MapDialog.this.hide();
                             marker.remove();
+
+
                             Toast.makeText(mapActivity.getApplicationContext(), R.string.deleted_message, Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(mapActivity.getApplicationContext(), R.string.something_wrong_msg, Toast.LENGTH_LONG).show();
@@ -103,7 +106,6 @@ public class MapDialog extends Dialog {
                 }
             }
         };
-
         btnEdit.setOnClickListener(btnListner);
         btnDelete.setOnClickListener(btnListner);
     }

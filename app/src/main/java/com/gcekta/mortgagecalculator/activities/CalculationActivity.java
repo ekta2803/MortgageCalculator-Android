@@ -88,7 +88,7 @@ public class CalculationActivity extends AppCompatActivity
             pp = ppFromMap;
             propertyPrice.setText(NumberFormat.getCurrencyInstance().format((pp.getPropertyPrice())));
             downPayment.setText(NumberFormat.getCurrencyInstance().format((pp.getDownPayment())));
-            apr.setText("");
+            apr.setText(NumberFormat.getCurrencyInstance().format((pp.getApr())));
             int lt = pp.getLoanTerms();
             if(lt == 15){
                 loanterm.check(R.id.years15);
