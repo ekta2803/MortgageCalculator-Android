@@ -81,14 +81,15 @@
             android:id="@+id/apr_text_layout"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
 
             <EditText
-                android:layout_height="wrap_content"
                 android:id="@+id/apr"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/apr_label"
-                android:inputType="number"
-                android:layout_width="84dp" />
+                android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>
 
