@@ -50,7 +50,8 @@
     <string name="deleted_message">Property details and calculation have been deleted.</string>
     <string name="edit_title">Calculation for: </string>
     <string name="save_edits_label">Save Edited Calculations</string>
-
+    <string name="down_pmt_grt_thn_prop_price">Down Payment cannot be greater than Property Price.</string>
+    <string name="required_fields">Enter a complete address detail.</string>
 
     <string-array name="statearray">
         <item>AL</item>

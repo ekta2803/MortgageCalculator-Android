@@ -59,7 +59,6 @@ public class PropertyInfoActivity extends AppCompatActivity
 
         fabMainPropInfo = (FloatingActionButton)findViewById(R.id.fabMainPropInfo);
 
-
         View.OnClickListener fabListenerProp = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,12 +257,16 @@ public class PropertyInfoActivity extends AppCompatActivity
     public boolean validateAddress(){
         List<Address> addresses = null;
         try {
-
+            if(String.valueOf(streetAddress.getText()).trim().isEmpty() || String.valueOf(city.getText()).trim().isEmpty()
+                    || String.valueOf(state.getText()).trim().isEmpty() || String.valueOf(zip.getText()).trim().isEmpty()){
+                Toast.makeText(this, R.string.required_fields   , Toast.LENGTH_LONG).show();
+                return false;
+            }
             geocoder = new Geocoder(getBaseContext());
             String fullAddr = String.valueOf(streetAddress.getText()) + ", "+ String.valueOf(city.getText())+"," +
                     " "+String.valueOf(state.getText())+", "+String.valueOf(zip.getText());
             addresses = geocoder.getFromLocationName(String.valueOf(streetAddress.getText()),10);
-            if(addresses.size()>0){
+            if(addresses.size()>0 ){
                 return true;
             }else{
                 Toast.makeText(this, R.string.address_invalid_message, Toast.LENGTH_LONG).show();

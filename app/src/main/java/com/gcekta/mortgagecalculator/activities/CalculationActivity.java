@@ -1,6 +1,7 @@
 package com.gcekta.mortgagecalculator.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -88,7 +90,7 @@ public class CalculationActivity extends AppCompatActivity
             pp = ppFromMap;
             propertyPrice.setText(NumberFormat.getCurrencyInstance().format((pp.getPropertyPrice())));
             downPayment.setText(NumberFormat.getCurrencyInstance().format((pp.getDownPayment())));
-            apr.setText("");
+            apr.setText(NumberFormat.getCurrencyInstance().format((pp.getApr())));
             int lt = pp.getLoanTerms();
             if(lt == 15){
                 loanterm.check(R.id.years15);
@@ -279,6 +281,8 @@ public class CalculationActivity extends AppCompatActivity
                 switch (v.getId()){
                     case R.id.calcbtn:
                         calculateMonthlyPayment();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                         break;
                     case R.id.save_edits:
                         if(calculateMonthlyPayment()){
@@ -368,9 +372,16 @@ public class CalculationActivity extends AppCompatActivity
                     break;
             }
 
-            String monthlyPaymentValue = NumberFormat.getCurrencyInstance().format((Calculations.calculateMonthlyPayment(pp)));
-            monthlyPayment.setText(monthlyPaymentValue);
-            return true;
+            if(pp.getDownPayment()<pp.getPropertyPrice()){
+                String monthlyPaymentValue = NumberFormat.getCurrencyInstance().format((Calculations.calculateMonthlyPayment(pp)));
+                monthlyPayment.setText(monthlyPaymentValue);
+                return true;
+            }else{
+                Toast.makeText(getApplicationContext(), R.string.down_pmt_grt_thn_prop_price, Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+
         }else{
             return false;
         }
