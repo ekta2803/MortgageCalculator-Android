@@ -17,7 +17,9 @@
         app:layout_collapseParallaxMultiplier="1.0"
         app:layout_scrollFlags="scroll"
         android:weightSum="1"
-        android:padding="@dimen/activity_vertical_margin">
+        android:padding="@dimen/activity_vertical_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
 
         <TextView
@@ -86,7 +88,7 @@
 
             <EditText
                 android:id="@+id/apr"
-                android:layout_width="75dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/apr_label"
                 android:inputType="number" />

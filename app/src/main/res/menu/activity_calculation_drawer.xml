@@ -6,12 +6,13 @@
             android:id="@+id/nav_new_calc"
             android:icon="@drawable/ic_new_calc"
             android:title="@string/nav_new_calc_title"
-            android:checkable="false"/>
+            android:checkable="true"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_saved_calc"
             android:icon="@drawable/ic_saved_props"
             android:title="@string/nav_saved_calc"
-            android:checkable="false"/>
+            android:checkable="true"/>
     </group>
 
 </menu>

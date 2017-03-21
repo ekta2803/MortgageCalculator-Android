@@ -2,26 +2,24 @@ package com.gcekta.mortgagecalculator.activities;
 
 
 
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.SectionIndexer;
-import android.widget.TextView;
 
-import com.gcekta.mortgagecalculator.Manifest;
 import com.gcekta.mortgagecalculator.db.PropertyDataSource;
 import com.gcekta.mortgagecalculator.dialogs.MapDialog;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
@@ -39,12 +37,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.gcekta.mortgagecalculator.R;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import java.io.IOException;
-import java.io.Serializable;
-import java.security.Security;
-import java.text.NumberFormat;
 import java.util.*;
 
-public class MapActivity extends FragmentActivity
+public class MapActivity extends AppCompatActivity
         implements OnMapReadyCallback, OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener{
     private GoogleMap mMap;
     private PropertyDataSource database;
@@ -58,11 +53,26 @@ public class MapActivity extends FragmentActivity
         return pojoObj;
     }
 
+    //Views
+    FloatingActionButton fabMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_map);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarmap);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         database = new PropertyDataSource(this);
         database.open();
@@ -73,6 +83,37 @@ public class MapActivity extends FragmentActivity
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_map);
         mapFragment.getMapAsync(this);
+
+        //get handles of Views
+        fabMap = (FloatingActionButton)findViewById(R.id.fabMap);
+
+        View.OnClickListener fabListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MapActivity.this);
+                alertBuilder
+                        .setTitle(R.string.alert_title)
+                        .setMessage(R.string.clear_alert_msg)
+                        .setPositiveButton(R.string.clear_alert_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(getApplicationContext(), CalculationActivity.class);
+                                startActivity(i);
+                                return;
+                            }
+                        })
+                        .setNegativeButton(R.string.clear_alert_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+
+                alertBuilder.create().show();
+                return;
+            }
+        };
+        fabMap.setOnClickListener(fabListener);
     }
 
     @Override

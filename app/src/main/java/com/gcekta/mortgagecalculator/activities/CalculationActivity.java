@@ -32,6 +32,7 @@ import com.gcekta.mortgagecalculator.model.Calculations;
 import com.gcekta.mortgagecalculator.model.PropertyPojo;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class CalculationActivity extends AppCompatActivity
@@ -90,7 +91,10 @@ public class CalculationActivity extends AppCompatActivity
             pp = ppFromMap;
             propertyPrice.setText(NumberFormat.getCurrencyInstance().format((pp.getPropertyPrice())));
             downPayment.setText(NumberFormat.getCurrencyInstance().format((pp.getDownPayment())));
-            apr.setText(NumberFormat.getCurrencyInstance().format((pp.getApr())));
+
+            DecimalFormat df = new DecimalFormat("##0.00");
+            apr.setText(df.format(pp.getApr()));
+
             int lt = pp.getLoanTerms();
             if(lt == 15){
                 loanterm.check(R.id.years15);
@@ -198,6 +202,7 @@ public class CalculationActivity extends AppCompatActivity
             }
 
         };
+
         TextWatcher downPaymentWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -237,6 +242,7 @@ public class CalculationActivity extends AppCompatActivity
 
         };
         TextWatcher aprWatcher = new TextWatcher() {
+            DecimalFormat df = new DecimalFormat("##0.00");
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -254,10 +260,10 @@ public class CalculationActivity extends AppCompatActivity
                 if(!s.toString().equals(current)){
 
                     apr.removeTextChangedListener(this);
-                    String cleanString = s.toString().replaceAll("[,.% ]","");
+                    String cleanString = s.toString().replaceAll("[,.]","");
                     if(!cleanString.isEmpty()){
                         double parsed = (Double.parseDouble(cleanString))/100;
-                        String formatted = NumberFormat.getNumberInstance().format((parsed)) + " %";
+                        String formatted = df.format(parsed);
                         current = formatted;
                         apr.setText(formatted);
                         apr.setSelection(formatted.length());
