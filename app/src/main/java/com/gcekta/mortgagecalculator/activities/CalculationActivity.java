@@ -102,6 +102,14 @@ public class CalculationActivity extends AppCompatActivity
                 loanterm.check(R.id.years30);
             }
             monthlyPayment.setText(NumberFormat.getCurrencyInstance().format((pp.getMonthlyPayment())));
+
+            String address = pp.getAddress() + " " +
+                                pp.getCity() + " " +
+                                pp.getState() + " " +
+                                pp.getZipcode();
+
+            calcFor.setText(address);
+
         }else{
             pp = new PropertyPojo();
         }
