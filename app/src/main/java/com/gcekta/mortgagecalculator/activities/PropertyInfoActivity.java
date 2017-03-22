@@ -1,10 +1,13 @@
 package com.gcekta.mortgagecalculator.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -162,17 +165,21 @@ public class PropertyInfoActivity extends AppCompatActivity
         View.OnClickListener savePropertyListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateAddress()){
-                    updatePropertyDetails(pp);
+                if(isConnetctedToInternet()) {
+                    if (validateAddress()) {
+                        updatePropertyDetails(pp);
 
-                    PropertyDataSource database = new PropertyDataSource(getApplicationContext());
-                    database.open();
-                    if(database.createPropertyInfo(pp)){
-                        Toast.makeText(getApplicationContext(), R.string.property_saved_message, Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(), R.string.something_wrong_msg, Toast.LENGTH_LONG).show();
+                        PropertyDataSource database = new PropertyDataSource(getApplicationContext());
+                        database.open();
+                        if (database.createPropertyInfo(pp)) {
+                            Toast.makeText(getApplicationContext(), R.string.property_saved_message, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.something_wrong_msg, Toast.LENGTH_LONG).show();
+                        }
+                        database.close();
                     }
-                    database.close();
+                }else{
+                    Toast.makeText(getApplicationContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -286,6 +293,16 @@ public class PropertyInfoActivity extends AppCompatActivity
         pp.setCity(String.valueOf(city.getText()));
         pp.setState(String.valueOf(state.getText()));
         pp.setZipcode(String.valueOf(zip.getText()));
+    }
+
+    public boolean isConnetctedToInternet() {
+        ConnectivityManager connectivity = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.getState() == NetworkInfo.State.CONNECTED)
+                return true;
+        }
+        return false;
     }
 
 }
