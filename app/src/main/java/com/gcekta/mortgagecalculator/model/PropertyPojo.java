@@ -17,6 +17,8 @@ public class PropertyPojo implements Serializable {
     String city;
     String state;
     String zipcode;
+    Double latitude;
+    Double longitude;
     double propertyPrice;
     double downPayment;
     double apr;
@@ -104,6 +106,24 @@ public class PropertyPojo implements Serializable {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
+
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public int getPropertyId() {
         return propertyId;
     }

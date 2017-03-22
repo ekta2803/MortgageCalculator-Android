@@ -20,6 +20,10 @@ class TableDetails {
 
     public static final String COLUMN_PROP_ZIPCODE = "zipcode";
 
+    public static final String COLUMN_PROP_LAT = "latitude";
+
+    public static final String COLUMN_PROP_LONG = "longitude";
+
     public static final String COLUMN_LOAN_AMT = "loan_amount";
 
     public static final String COLUMN_LOAN_DWN_PYMT = "down_payment";

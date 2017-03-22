@@ -32,6 +32,7 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.List;
@@ -95,15 +96,13 @@ public class PropertyInfoActivity extends AppCompatActivity
                 .build();
         autocompleteFragment.setFilter(countryFilter);
 
-        AutocompleteFilter precAddress = new AutocompleteFilter.Builder()
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
-                .build();
-        autocompleteFragment.setFilter(precAddress);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
+                LatLng latLng = place.getLatLng();
+                pp.setLatitude(latLng.latitude);
+                pp.setLongitude(latLng.longitude);
                 String fullAddress = (String) place.getAddress();
 
                 String[] addressArr = fullAddress.split(",");
@@ -257,6 +256,9 @@ public class PropertyInfoActivity extends AppCompatActivity
     public boolean validateAddress(){
         List<Address> addresses = null;
         try {
+            if(pp.getLatitude() != null && pp.getLongitude() != null){
+                return true;
+            }
             if(String.valueOf(streetAddress.getText()).trim().isEmpty() || String.valueOf(city.getText()).trim().isEmpty()
                     || String.valueOf(state.getText()).trim().isEmpty() || String.valueOf(zip.getText()).trim().isEmpty()){
                 Toast.makeText(this, R.string.required_fields   , Toast.LENGTH_LONG).show();
@@ -265,7 +267,7 @@ public class PropertyInfoActivity extends AppCompatActivity
             geocoder = new Geocoder(getBaseContext());
             String fullAddr = String.valueOf(streetAddress.getText()) + ", "+ String.valueOf(city.getText())+"," +
                     " "+String.valueOf(state.getText())+", "+String.valueOf(zip.getText());
-            addresses = geocoder.getFromLocationName(String.valueOf(streetAddress.getText()),10);
+            addresses = geocoder.getFromLocationName(fullAddr,1);
             if(addresses.size()>0 ){
                 return true;
             }else{
