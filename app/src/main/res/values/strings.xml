@@ -36,7 +36,7 @@
     <string name="enter_manual">Enter Address</string>
     <string name="search_address">Search Address</string>
     <string name="or">OR</string>
-
+    <string name="no_internet_connection">Please check your internet connection.</string>
     <string-array name="proptypearray">
         <item>House</item>
         <item>Town House</item>
