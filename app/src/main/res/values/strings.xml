@@ -52,6 +52,9 @@
     <string name="save_edits_label">Save Edited Calculations</string>
     <string name="down_pmt_grt_thn_prop_price">Down Payment cannot be greater than Property Price.</string>
     <string name="required_fields">Enter a complete address detail.</string>
+    <string name="new_calc_title">New Calculation</string>
+    <string name="save_prop_title">Save Property</string>
+    <string name="map_title">Saved Properties</string>
 
     <string-array name="statearray">
         <item>AL</item>
