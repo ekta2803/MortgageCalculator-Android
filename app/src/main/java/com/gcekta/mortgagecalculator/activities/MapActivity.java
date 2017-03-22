@@ -129,30 +129,22 @@ public class MapActivity extends AppCompatActivity
             PropertyPojo pojo = list.get(i);
             String address = pojo.getAddress()+", "+pojo.getCity()+", "+pojo.getState() +", "+ pojo.getZipcode();
 
-            try {
-                List<Address> addresses = geocoder.getFromLocationName(address, 1);
-                if(addresses.size()>0){
-                    Address addr = addresses.get(0);
-                    lattitude = addr.getLatitude();
-                    longitude = addr.getLongitude();
-                    LatLng geoLocation = new LatLng(lattitude, longitude);
-                    Marker markerObj = mMap.addMarker(new MarkerOptions().position(geoLocation).title(pojo.getAddress())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                   try{
-                        mMap.setMyLocationEnabled(true);
-                    }catch(SecurityException e){
-                       e.printStackTrace();
-                   }
-
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geoLocation,12));
-                    mMap.setMinZoomPreference(6.0f);
-                    mMap.setMaxZoomPreference(14.0f);
-                    markerMap.put(markerObj,pojo);
-                    mMap.setOnMarkerClickListener(this);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            lattitude = pojo.getLatitude();
+            longitude = pojo.getLongitude();
+            LatLng geoLocation = new LatLng(lattitude, longitude);
+            Marker markerObj = mMap.addMarker(new MarkerOptions().position(geoLocation).title(pojo.getAddress())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+            try{
+                mMap.setMyLocationEnabled(true);
+            }catch(SecurityException e){
+               e.printStackTrace();
             }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geoLocation,12));
+            mMap.setMinZoomPreference(6.0f);
+            mMap.setMaxZoomPreference(14.0f);
+            markerMap.put(markerObj,pojo);
+            mMap.setOnMarkerClickListener(this);
         }
 
     }

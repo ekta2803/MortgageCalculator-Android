@@ -44,6 +44,8 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
+        values.put(TableDetails.COLUMN_PROP_LAT, property.getLatitude());
+        values.put(TableDetails.COLUMN_PROP_LONG, property.getLongitude());
         values.put(TableDetails.COLUMN_LOAN_AMT,property.getPropertyPrice());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());
@@ -66,7 +68,8 @@ public class PropertyDataSource {
 
         Cursor cursor = database.query(TableDetails.TABLE_NAME, new String[] { TableDetails.COLUMN_PROP_ID,
                         TableDetails.COLUMN_PROP_TYPE, TableDetails.COLUMN_PROP_ADDRESS,TableDetails.COLUMN_PROP_CITY,
-                        TableDetails.COLUMN_PROP_STATE,TableDetails.COLUMN_PROP_ZIPCODE,TableDetails.COLUMN_LOAN_AMT,
+                        TableDetails.COLUMN_PROP_STATE,TableDetails.COLUMN_PROP_ZIPCODE,TableDetails.COLUMN_PROP_LAT, TableDetails.COLUMN_PROP_LONG,
+                        TableDetails.COLUMN_LOAN_AMT,
                         TableDetails.COLUMN_LOAN_DWN_PYMT,TableDetails.COLUMN_LOAN_APR,TableDetails.COLUMN_LOAN_TERMS,TableDetails.COLUMN_MONTHLY_PMT},
                         TableDetails.COLUMN_PROP_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null){
@@ -78,11 +81,13 @@ public class PropertyDataSource {
             property.setCity(cursor.getString(3));
             property.setState(cursor.getString(4));
             property.setZipcode(cursor.getString(5));
-            property.setPropertyPrice(Double.parseDouble(cursor.getString(6)));
-            property.setDownPayment(Double.parseDouble(cursor.getString(7)));
-            property.setApr(Double.parseDouble(cursor.getString(8)));
-            property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
-            property.setMonthlyPayment(Double.parseDouble(cursor.getString(10)));
+            property.setLatitude(cursor.getDouble(6));
+            property.setLongitude(cursor.getDouble(7));
+            property.setPropertyPrice(Double.parseDouble(cursor.getString(8)));
+            property.setDownPayment(Double.parseDouble(cursor.getString(9)));
+            property.setApr(Double.parseDouble(cursor.getString(10)));
+            property.setLoanTerms(Integer.parseInt(cursor.getString(11)));
+            property.setMonthlyPayment(Double.parseDouble(cursor.getString(12)));
             return property;
         }else{
             return null;
@@ -109,11 +114,13 @@ public class PropertyDataSource {
                 property.setCity(cursor.getString(3));
                 property.setState(cursor.getString(4));
                 property.setZipcode(cursor.getString(5));
-                property.setPropertyPrice(Double.parseDouble(cursor.getString(6)));
-                property.setDownPayment(Double.parseDouble(cursor.getString(7)));
-                property.setApr(Double.parseDouble(cursor.getString(8)));
-                property.setLoanTerms(Integer.parseInt(cursor.getString(9)));
-                property.setMonthlyPayment(Double.parseDouble(cursor.getString(10)));
+                property.setLatitude(cursor.getDouble(6));
+                property.setLongitude(cursor.getDouble(7));
+                property.setPropertyPrice(Double.parseDouble(cursor.getString(8)));
+                property.setDownPayment(Double.parseDouble(cursor.getString(9)));
+                property.setApr(Double.parseDouble(cursor.getString(10)));
+                property.setLoanTerms(Integer.parseInt(cursor.getString(11)));
+                property.setMonthlyPayment(Double.parseDouble(cursor.getString(12)));
                 // Adding contact to list
                 propertyList.add(property);
             } while (cursor.moveToNext());
@@ -135,6 +142,8 @@ public class PropertyDataSource {
         values.put(TableDetails.COLUMN_PROP_CITY,property.getCity());
         values.put(TableDetails.COLUMN_PROP_STATE,property.getState());
         values.put(TableDetails.COLUMN_PROP_ZIPCODE,property.getZipcode());
+        values.put(TableDetails.COLUMN_PROP_LAT, property.getLatitude());
+        values.put(TableDetails.COLUMN_PROP_LONG, property.getLongitude());
         values.put(TableDetails.COLUMN_LOAN_AMT,property.getPropertyPrice());
         values.put(TableDetails.COLUMN_LOAN_DWN_PYMT,property.getDownPayment());
         values.put(TableDetails.COLUMN_LOAN_APR,property.getApr());

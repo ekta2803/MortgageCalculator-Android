@@ -18,6 +18,8 @@ public class DbHelper extends SQLiteOpenHelper {
             TableDetails.COLUMN_PROP_CITY+" TEXT, " +
             TableDetails.COLUMN_PROP_STATE +" TEXT," +
             TableDetails.COLUMN_PROP_ZIPCODE+" TEXT," +
+            TableDetails.COLUMN_PROP_LAT+" REAL," +
+            TableDetails.COLUMN_PROP_LONG+" REAL," +
             TableDetails.COLUMN_LOAN_AMT+" REAL," +
             TableDetails.COLUMN_LOAN_DWN_PYMT+" REAL," +
             TableDetails.COLUMN_LOAN_APR+" REAL," +
