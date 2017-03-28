@@ -3,5 +3,5 @@ A simple mortgage calculator app with Map.
 
 
 Inline-style: 
-![alt text](MortgageCalculator-Android/MC.gif "Demo")
+![Demo](https://github.com/gaurav51289/MortgageCalculator-Android.git/MC.gif "Demo")
 
